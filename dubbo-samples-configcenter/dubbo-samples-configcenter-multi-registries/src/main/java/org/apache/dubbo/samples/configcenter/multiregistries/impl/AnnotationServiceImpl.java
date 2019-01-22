@@ -25,7 +25,7 @@ import org.apache.dubbo.samples.configcenter.multiregistries.api.AnnotationServi
 /**
  * AsyncServiceImpl
  */
-@Service
+@Service(registry = {"registry1", "registry2"})
 public class AnnotationServiceImpl implements AnnotationService {
 
     @Override

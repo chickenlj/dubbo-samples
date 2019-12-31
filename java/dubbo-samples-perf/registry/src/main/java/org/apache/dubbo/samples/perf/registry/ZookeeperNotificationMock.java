@@ -31,21 +31,18 @@ import java.util.concurrent.Executors;
  */
 public class ZookeeperNotificationMock {
     private static String zookeeperHost = System.getProperty("zookeeper.address", "11.164.235.9");
-    private static String ROOT_PATH = "/dubbo/org.apache.dubbo.samples.basic.api.DemoService/providers/";
+    private static String ROOT_PATH = "/dubbo/org.apache.dubbo.demo.DemoService/providers/";
     private static ExecutorService executorService = Executors.newFixedThreadPool(100);
     private static String[] nodePathes;
     private static CuratorFramework client;
 
     public static void main(String[] args) throws Exception {
-        if (args.length <= 0) {
-            System.out.println("Please input 1 or 2 params.");
-            System.exit(1);
-        }
         initClient();
-        if (args.length == 2) {
+        if (args.length == 0) {
             deleteProviders();
         } else {
-            initProviders(args[0]);
+            ROOT_PATH = "/dubbo/" + args[1] + "/providers/";
+            initProviders(args[0] + "/" + args[1]);
             mockProvidersChange();
         }
     }
@@ -56,10 +53,10 @@ public class ZookeeperNotificationMock {
         client.start();
     }
 
-    public static void initProviders(String address) throws Exception {
+    public static void initProviders(String addressAndService) throws Exception {
         nodePathes = new String[1000];
         for (int i = 0; i < 1000; i++) {
-            String providerUrl = "dubbo://" + address + "/org.apache.dubbo.samples.basic.api.DemoService?anyhost=true&application=demo-provider&bind.ip=30.5.125.122&bind.port=20880&deprecated=false&dubbo=2.0.2&dynamic=true&generic=false&interface=org.apache.dubbo.samples.basic.api.DemoService&methods=testVoid,sayHello&pid=19175&release=2.7.5-SNAPSHOT&side=provider" +
+            String providerUrl = "dubbo://" + addressAndService + "?anyhost=true&application=demo-provider&bind.ip=30.5.125.122&bind.port=20880&deprecated=false&dubbo=2.0.2&dynamic=true&generic=false&interface=org.apache.dubbo.demo.DemoService&methods=testVoid,sayHello&pid=19175&release=2.7.5-SNAPSHOT&side=provider" +
                     "timestamp=" + System.currentTimeMillis();
             try {
                 String path = ROOT_PATH + URLEncoder.encode(providerUrl, "utf-8");

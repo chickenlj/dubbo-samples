@@ -37,11 +37,15 @@ public class ZookeeperNotificationMock {
     private static CuratorFramework client;
 
     public static void main(String[] args) throws Exception {
+        if (args.length <= 0) {
+            System.out.println("Please input 1 or 2 params.");
+            System.exit(1);
+        }
         initClient();
-        if (args.length == 1) {
+        if (args.length == 2) {
             deleteProviders();
         } else {
-            initProviders();
+            initProviders(args[0]);
             mockProvidersChange();
         }
     }
@@ -52,10 +56,10 @@ public class ZookeeperNotificationMock {
         client.start();
     }
 
-    public static void initProviders() throws Exception {
+    public static void initProviders(String address) throws Exception {
         nodePathes = new String[1000];
         for (int i = 0; i < 1000; i++) {
-            String providerUrl = "dubbo://30.5.125.28:20880/org.apache.dubbo.samples.basic.api.DemoService?anyhost=true&application=demo-provider&bind.ip=30.5.125.122&bind.port=20880&deprecated=false&dubbo=2.0.2&dynamic=true&generic=false&interface=org.apache.dubbo.samples.basic.api.DemoService&methods=testVoid,sayHello&pid=19175&release=2.7.5-SNAPSHOT&side=provider" +
+            String providerUrl = "dubbo://" + address + "/org.apache.dubbo.samples.basic.api.DemoService?anyhost=true&application=demo-provider&bind.ip=30.5.125.122&bind.port=20880&deprecated=false&dubbo=2.0.2&dynamic=true&generic=false&interface=org.apache.dubbo.samples.basic.api.DemoService&methods=testVoid,sayHello&pid=19175&release=2.7.5-SNAPSHOT&side=provider" +
                     "timestamp=" + System.currentTimeMillis();
             try {
                 String path = ROOT_PATH + URLEncoder.encode(providerUrl, "utf-8");

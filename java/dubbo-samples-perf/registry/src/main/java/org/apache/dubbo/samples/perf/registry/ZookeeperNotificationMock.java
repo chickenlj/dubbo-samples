@@ -111,7 +111,7 @@ public class ZookeeperNotificationMock {
     }
 
     public static void deleteProviders() throws Exception {
-        List<String> children = client.getChildren().forPath("/dubbo/org.apache.dubbo.samples.basic.api.DemoService/providers");
+        List<String> children = client.getChildren().forPath(ROOT_PATH.substring(0, ROOT_PATH.length() - 1));
         if (!CollectionUtils.isEmpty(children)) {
             children.forEach(c -> {
                 try {

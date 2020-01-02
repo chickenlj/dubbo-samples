@@ -43,7 +43,8 @@ public class ZookeeperNotificationMock {
         } else {
             ROOT_PATH = "/dubbo/" + args[1] + "/providers/";
             initProviders(args[0] + "/" + args[1]);
-            mockProvidersChange();
+            System.in.read();
+            mockProvidersChange(Integer.parseInt(args[2]));
         }
     }
 
@@ -56,7 +57,7 @@ public class ZookeeperNotificationMock {
     public static void initProviders(String addressAndService) throws Exception {
         nodePathes = new String[1000];
         for (int i = 0; i < 1000; i++) {
-            String providerUrl = "dubbo://" + addressAndService + "?anyhost=true&application=demo-provider&bind.ip=30.5.125.122&bind.port=20880&deprecated=false&dubbo=2.0.2&dynamic=true&generic=false&interface=org.apache.dubbo.demo.DemoService&methods=testVoid,sayHello&pid=19175&release=2.7.5-SNAPSHOT&side=provider" +
+            String providerUrl = "dubbo://" + addressAndService + "?anyhost=true&application=demo-provider&bind.ip=30.5.125.122&bind.port=20880&deprecated=false&dubbo=2.0.2&dynamic=true&generic=false&interface=org.apache.dubbo.demo.DemoService&methods=testVoid,sayHello&pid=19175&release=2.7.5-SNAPSHOT&side=provider&" +
                     "timestamp=" + System.currentTimeMillis();
             try {
                 String path = ROOT_PATH + URLEncoder.encode(providerUrl, "utf-8");
@@ -72,10 +73,10 @@ public class ZookeeperNotificationMock {
         Thread.sleep(100);
     }
 
-    public static void mockProvidersChange() throws Exception {
+    public static void mockProvidersChange(int count) throws Exception {
         Random r = new Random();
         String[] changes = new String[100];
-        while (true) {
+        for (int index = 0; index < count; index++) {
             CountDownLatch deleteLatch = new CountDownLatch(100);
             for (int i = 0; i < 100; i++) {
                 String path = nodePathes[r.nextInt(1000)];

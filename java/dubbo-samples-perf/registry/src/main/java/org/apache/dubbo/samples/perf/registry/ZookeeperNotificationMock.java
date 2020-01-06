@@ -43,6 +43,7 @@ public class ZookeeperNotificationMock {
         } else {
             ROOT_PATH = "/dubbo/" + args[1] + "/providers/";
             initProviders(args[0] + "/" + args[1]);
+            System.out.println("init finished, please input any character to continue...");
             System.in.read();
             mockProvidersChange(Integer.parseInt(args[2]));
         }

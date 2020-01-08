@@ -31,14 +31,15 @@ import java.util.concurrent.Executors;
  */
 public class ZookeeperNotificationMock {
     private static String zookeeperHost = System.getProperty("zookeeper.address", "11.164.235.9");
-    private static String ROOT_PATH = "/dubbo/org.apache.dubbo.demo.DemoService/providers/";
+    private static String ROOT_PATH;
     private static ExecutorService executorService = Executors.newFixedThreadPool(100);
     private static String[] nodePathes;
     private static CuratorFramework client;
 
     public static void main(String[] args) throws Exception {
         initClient();
-        if (args.length == 0) {
+        if (args.length == 1) {
+            ROOT_PATH = "/dubbo/" + args[0] + "/providers/";
             deleteProviders();
         } else {
             ROOT_PATH = "/dubbo/" + args[1] + "/providers/";

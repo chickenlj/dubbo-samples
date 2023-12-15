@@ -1,8 +1,9 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
+option java_package = "org.apache.dubbo.springboot.demo.idl";
 
-package org.apache.dubbo.springboot.demo.idl;
+package greet;
 
 message GreeterRequest {
   string name = 1;
